@@ -5,14 +5,14 @@ struct Rectangle {
 
 impl Rectangle {
     // Don't change this function.
-    fn new(width: i32, height: i32) -> Self {
+    fn new(width: i32, height: i32) -> Result<Self, ()> {
         if width <= 0 || height <= 0 {
             // Returning a `Result` would be better here. But we want to learn
             // how to test functions that can panic.
-            panic!("Rectangle width and height must be positive");
+            return Err(());
         }
 
-        Rectangle { width, height }
+        Ok(Rectangle { width, height })
     }
 }
 
@@ -29,8 +29,8 @@ mod tests {
         // TODO: This test should check if the rectangle has the size that we
         // pass to its constructor.
         let rect = Rectangle::new(10, 20);
-        assert_eq!(todo!(), 10); // Check width
-        assert_eq!(todo!(), 20); // Check height
+        assert_eq!(rect.as_ref().unwrap().width, 10); // Check width
+        assert_eq!(rect.unwrap().height, 20); // Check height
     }
 
     // TODO: This test should check if the program panics when we try to create
