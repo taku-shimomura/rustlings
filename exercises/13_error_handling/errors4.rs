@@ -1,16 +1,22 @@
 #[derive(PartialEq, Debug)]
-enum CreationError {
+pub enum CreationError {
     Negative,
     Zero,
 }
 
 #[derive(PartialEq, Debug)]
-struct PositiveNonzeroInteger(u64);
+pub struct PositiveNonzeroInteger(u64);
 
 impl PositiveNonzeroInteger {
-    fn new(value: i64) -> Result<Self, CreationError> {
+    pub fn new(value: i64) -> Result<Self, CreationError> {
         // TODO: This function shouldn't always return an `Ok`.
-        Ok(Self(value as u64))
+        if value.is_positive() {
+            Ok(Self(value as u64))
+        } else if value == 0 {
+            Err(CreationError::Zero)
+        } else {
+            Err(CreationError::Negative)
+        }
     }
 }
 
